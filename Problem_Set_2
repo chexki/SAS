@@ -1,0 +1,106 @@
+/** TASK 6 **/ 
+/* Write SAS code to create a report to have Country wise Category based sum of Amount */ 
+data Product6; 
+set orion.Product; 
+run;      
+                                                                                    
+proc report data=Product6; 
+columns Country Category Amount; 
+define Country /'Country' group; 
+define Category/'Category' group; 
+define Amount /'Amount' format=dollar8.; 
+run;                                                                                                                      /** Prints the result of #6 **/ 
+                                      
+                        
+/** TASK 7 **/ 
+/* Create a new Dataset which should have a new variable Discount.  
+       Discount should be given as follows 
+    a) If Amount is greater than $5000, Discount is 10% of the Amount 
+    b) Else Discount is 5% of the Amount 
+*/ 
+ 
+ 
+data Product7; 
+set orion.Product; 
+if Amount>5000 then Discount=(Amount * 1.10); 
+else Discount =(Amount * 1.05); 
+run; 
+ 
+proc print data=Product7; 
+run;                                                                                                                        /** Prints the result of #7 **/ 
+ 
+ 
+ 
+/** TASK 8  **/ 
+/* Write a SAS code to create a new Dataset for every unique Country and  
+    it should have data of that specific country*/ 
+ 
+data Australia Canada France Germany NZ UK US; 
+set orion.Product; 
+if Country='Australia' then output Australia; 
+else if Country='Canada' then output Canada; 
+if Country='France' then output France; 
+if Country='Germany' then output Germany; 
+if Country='New Zaeland' then output NZ; 
+if Country='United Kingdom' then output UK; 
+if Country='United States' then output US; 
+run; 
+proc print data=Australia; 
+title Australia; 
+run; 
+proc print data=Canada; 
+title Canada; 
+run; 
+proc print data=France; 
+title France; 
+run; 
+proc print data=Germany; 
+title Germany; 
+run; 
+proc print data=NZ; 
+title New Zealand; 
+run; 
+proc print data=UK; 
+title United Kingdom; 
+run; 
+proc print data=US; 
+title United States; 
+run;                                                                                                                /** Print the results of #8 **/ 
+ 
+ 
+/** TASK 9 **/ 
+/* Write a SAS code to calculate sum of amount for every country and 
+   determine the percentage amount based on entire total*/ 
+ 
+data Product9; 
+set orion.Product; 
+run; 
+ 
+proc format;          
+picture Pctab (round) other='009.99%'; 
+run; 
+ 
+proc tabulate data=Product9 format=8.; 
+  class Country; 
+  var Amount; 
+  tables Country all, Amount*(sum pctn*f=Pctab.); 
+title "Countrywise Percentage"; 
+run;                                                                                                                  /** Prints the result of #9 **/ 
+ 
+ 
+ 
+/** TASK 10 **/  
+/* Write a Macro program to input an Order ID and retrieve its product information.  
+     The Macro should have some default Order ID passed.   */ 
+ 
+ 
+%macro ProductInfo (Id = );                   
+proc print data = orion.Product noobs; 
+where OrderId = &Id;  
+title "Product Information of OrderId = &Id"; 
+run; 
+%mend ProductInfo; 
+ 
+ 
+%ProductInfo (Id = 199);                             /* Enter the required OrderId here  */ 
+                                                                         /** Prints the result of #10 **/
