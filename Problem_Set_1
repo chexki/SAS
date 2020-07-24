@@ -1,8 +1,15 @@
+# Case Study on Base and Advanced SAS(C-SAS)    
+ 
+Import only those records where Category is Fruit and Country is United States
+Create a frequency table to display Country based Product information
+Create a new Dataset which should have only those products which were ordered on or before 31st March 2012
+Find out the countries which have highest and lowest Amount
+
 /* Assigning the Library */\ 
  
 Libname orion '/folders/myfolders/SAS foundation/Project/'; 
  
-/* TASK 1 */ 
+/* TASK 1 */
 /* Import the data of product file in SAS environment and create a Product Dataset  */ 
  
 PROC IMPORT DATAFILE="/folders/myfolders/SAS foundation/Project/Product.xls/" 
