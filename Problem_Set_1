@@ -1,0 +1,67 @@
+/* Assigning the Library */\ 
+ 
+Libname orion '/folders/myfolders/SAS foundation/Project/'; 
+ 
+/* TASK 1 */ 
+/* Import the data of product file in SAS environment and create a Product Dataset  */ 
+ 
+PROC IMPORT DATAFILE="/folders/myfolders/SAS foundation/Project/Product.xls/" 
+            OUT=orion.Product 
+            DBMS=XLS 
+            REPLACE; 
+RUN;                                      
+ 
+PROC PRINT DATA=orion.Product; 
+RUN;    
+                                                                           /** Prints the result of #1 **/ 
+Proc contents data=orion.Product; 
+run 
+ 
+ 
+/** TASK 2 **/  
+/* Import only those records where Category is Fruit and Country is United States*/ 
+ 
+data Product2; 
+set orion.Product; 
+if Category='Fruit' and Country='United States' then output; 
+run; 
+ 
+proc print data=product2; 
+run;                                                                        /** Prints the result of #2 **/ 
+ 
+ 
+/** TASK 3 **/ 
+/* Create a frequency table to display Country based Product information*/ 
+ 
+proc freq data=orion.Product; 
+table Country; 
+run;                                                                    /** Prints the result of #3 **/ 
+ 
+ 
+/** TASK 4 **/ 
+/* Create a new Dataset which should have only those products which were ordered  
+   on or before 31st March 2012*/ 
+ 
+data Product4; 
+set orion.Product; 
+format Date mmddyy10. ; 
+if Date <='31Mar2012'd then output; 
+run; 
+ 
+proc print data=product4; 
+run;                                                                           /** Prints the result of #4 **/ 
+ 
+ 
+/** TASK 5 **/ 
+/* Find out the countries which have highest and lowest Amount */ 
+data Product5; 
+set orion.Product; 
+run; 
+ 
+proc sort data=product5; 
+by Amount; 
+run; 
+   
+proc print data=Product5;  
+run;                                                                      /** Prints the result of #5 **/ 
+                                                                      /** France- Lowest, Canada- Highest */ 
